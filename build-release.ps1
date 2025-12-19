@@ -1,5 +1,5 @@
 param (
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [string]$Version
 )
 
@@ -27,9 +27,12 @@ if (Test-Path $ZipPath) {
 
 # 2. Publish
 Write-Host "Publishing project..." -ForegroundColor Yellow
+
+# Strip "V" prefix for distinct numeric version (e.g. "V1.0" -> "1.0")
+$NumericVersion = $Version -replace "^[vV]", ""
+
 # Note: Project is already configured for SelfContained/SingleFile in .csproj
-# We assume those settings are correct, but valid overrides are kept here just in case.
-dotnet publish $ProjectFile -c Release -r win-x64 /p:DebugType=None /p:DebugSymbols=false
+dotnet publish $ProjectFile -c Release -r win-x64 /p:DebugType=None /p:DebugSymbols=false /p:Version=$NumericVersion /p:AssemblyVersion=$NumericVersion /p:FileVersion=$NumericVersion
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Build failed!"
