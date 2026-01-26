@@ -36,6 +36,16 @@ public sealed class ConfigService : IConfigService
         _logger.LogInformation("Saved elevation preference: {Elevated}", elevated);
     }
 
+    public WindowPositionConfig? WindowPosition => _config.WindowPosition;
+
+    public void SaveWindowPosition(WindowPositionConfig position)
+    {
+        _config.WindowPosition = position;
+        SaveConfig(GetConfigPath(), _config);
+        _logger.LogInformation("Saved window position: Corner={Corner}, OffsetX={X}, OffsetY={Y}", 
+            position.Corner, position.OffsetX, position.OffsetY);
+    }
+
     private AppConfig LoadConfig()
     {
         var configPath = GetConfigPath();

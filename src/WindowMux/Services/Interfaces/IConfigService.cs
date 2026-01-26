@@ -36,4 +36,14 @@ public interface IConfigService
     /// Saves the user's elevation preference to config.
     /// </summary>
     void SetElevatedMode(bool elevated);
+
+    /// <summary>
+    /// Gets the saved window position.
+    /// </summary>
+    WindowPositionConfig? WindowPosition { get; }
+
+    /// <summary>
+    /// Saves the window position to config.
+    /// </summary>
+    void SaveWindowPosition(WindowPositionConfig position);
 }
